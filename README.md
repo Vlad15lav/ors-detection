@@ -1,2 +1,4 @@
 # Optical Remote Sensing Detection
-Objects Detection in The Optical Remote Sensing🌍🛰
+Objecte Detection in The Optical Remote Sensing🌍🛰
+
+Course work at Kazan Federal University
