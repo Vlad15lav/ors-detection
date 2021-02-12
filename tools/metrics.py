@@ -2,7 +2,7 @@ import numpy as np
 import torch
 
 from IPython import display
-from tools.box import bbox_iou
+from tools.box import bbox_iou, xywh2xyxy
 from tools.nms import non_max_suppression
 from torch.autograd import Variable
 
