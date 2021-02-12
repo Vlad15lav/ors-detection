@@ -20,7 +20,8 @@ def rescale_boxes(boxes, current_dim, original_shape):
     return boxes
  
 def xywh2xyxy(x):
-    y = x.new(x.shape)
+    y = torch.zeros_like(x) if isinstance(x, torch.Tensor)\
+        else np.zeros_like(x)
     y[..., 0] = x[..., 0] - x[..., 2] / 2
     y[..., 1] = x[..., 1] - x[..., 3] / 2
     y[..., 2] = x[..., 0] + x[..., 2] / 2
@@ -28,7 +29,7 @@ def xywh2xyxy(x):
     return y
 
 def xyxy2xywh(x):
-    y = torch.zeros_like(x) if isinstance(x, torch.Tensor)
+    y = torch.zeros_like(x) if isinstance(x, torch.Tensor)\
         else np.zeros_like(x)
     y[:, 0] = (x[:, 0] + x[:, 2]) / 2  # x center
     y[:, 1] = (x[:, 1] + x[:, 3]) / 2  # y center
@@ -49,19 +50,19 @@ def bbox_wh_iou(wh1, wh2):
 def bbox_iou(box_a, box_b, x1y1x2y2=True):
     if not x1y1x2y2:
         # xywh2xyxy
-        b1_x1, b1_x2 = box_a[:, 0] - box_a[:, 2] / 2,
+        b1_x1, b1_x2 = box_a[:, 0] - box_a[:, 2] / 2,\
             box_a[:, 0] + box_a[:, 2] / 2
-        b1_y1, b1_y2 = box_a[:, 1] - box_a[:, 3] / 2,
+        b1_y1, b1_y2 = box_a[:, 1] - box_a[:, 3] / 2,\
             box_a[:, 1] + box_a[:, 3] / 2
-        b2_x1, b2_x2 = box_b[:, 0] - box_b[:, 2] / 2,
+        b2_x1, b2_x2 = box_b[:, 0] - box_b[:, 2] / 2,\
             box_b[:, 0] + box_b[:, 2] / 2
-        b2_y1, b2_y2 = box_b[:, 1] - box_b[:, 3] / 2,
+        b2_y1, b2_y2 = box_b[:, 1] - box_b[:, 3] / 2,\
             box_b[:, 1] + box_b[:, 3] / 2
     else:
         # xyxy
-        b1_x1, b1_y1, b1_x2, b1_y2 = box_a[:, 0], box_a[:, 1],
+        b1_x1, b1_y1, b1_x2, b1_y2 = box_a[:, 0], box_a[:, 1],\
             box_a[:, 2], box_a[:, 3]
-        b2_x1, b2_y1, b2_x2, b2_y2 = box_b[:, 0], box_b[:, 1],
+        b2_x1, b2_y1, b2_x2, b2_y2 = box_b[:, 0], box_b[:, 1],\
             box_b[:, 2], box_b[:, 3]
  
     # Intersec coord
@@ -70,7 +71,7 @@ def bbox_iou(box_a, box_b, x1y1x2y2=True):
     inter_rect_x2 = torch.min(b1_x2, b2_x2)
     inter_rect_y2 = torch.min(b1_y2, b2_y2)
     # Intersect Area
-    inter_area = torch.clamp(inter_rect_x2 - inter_rect_x1 + 1, min=0) *
+    inter_area = torch.clamp(inter_rect_x2 - inter_rect_x1 + 1, min=0) *\
         torch.clamp(inter_rect_y2 - inter_rect_y1 + 1, min=0)
     # Union Area
     b1_area = (b1_x2 - b1_x1 + 1) * (b1_y2 - b1_y1 + 1)
