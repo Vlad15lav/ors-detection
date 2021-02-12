@@ -24,7 +24,9 @@ python train.py --path data/DIOR-full --cfg dior --img_size 512 --load_train --e
 ```
 python eval.py --path data/DIOR-full --cfg dior --img_size 512 --batch_size 12
 ```
+## Dior Dataset
+<img src="/images/diorset.png" alt="drawing" width="550"/>
 
 ## References
 - [Detection in Optical Remote Sensing Dataset](https://arxiv.org/abs/1909.00133)
-- [You Only Look Onec V3](https://arxiv.org/pdf/1804.02767.pdf)
+- [You Only Look Once V3](https://arxiv.org/pdf/1804.02767.pdf)
