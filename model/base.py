@@ -1,4 +1,5 @@
 import torch.nn as nn
+import torch
 
 from model.layers import Upsample, EmptyLayer, PredictLayer
 
@@ -31,7 +32,7 @@ def create_layers(yolo_anchors, num_classes):
 
     for i in range(1):
         model_cfg.append(addConv(1, 32, 1, 1, 1, 'leaky'))
-        model_cfg.append(addConv(1, 32, 1, 1, 1, 'leaky'))
+        model_cfg.append(addConv(1, 64, 3, 1, 1, 'leaky'))
         model_cfg.append(addResidual('linear', -3))
 
     model_cfg.append(addConv(1, 128, 3, 2, 1, 'leaky'))
