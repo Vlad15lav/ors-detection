@@ -2,6 +2,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+from tools.box import bbox_iou, bbox_wh_iou
+
 # Upsample layer
 class Upsample(nn.Module): 
   def __init__(self, scale_factor, mode="nearest"):
@@ -29,7 +31,6 @@ class PredictLayer(nn.Module):
         self.bce_loss = nn.BCELoss()
         self.obj_scale = 1 # weight obj
         self.noobj_scale = 100 # weight not obj
-        self.metrics = {}
         self.img_size = img_size
         self.grid_size = 0 
 
@@ -63,12 +64,12 @@ class PredictLayer(nn.Module):
             grid_size, grid_size).permute(0, 1, 3, 4, 2).contiguous())
  
         # Loss calculation
-        x = torch.sigmoid(prediction[..., 0])  # X center
-        y = torch.sigmoid(prediction[..., 1])  # Y center
-        w = prediction[..., 2]  # Width
-        h = prediction[..., 3]  # Height
-        pred_conf = torch.sigmoid(prediction[..., 4])  # Conf
-        pred_cls = torch.sigmoid(prediction[..., 5:])  # Class
+        x = torch.sigmoid(prediction[..., 0]) # X center
+        y = torch.sigmoid(prediction[..., 1]) # Y center
+        w = prediction[..., 2] # Width
+        h = prediction[..., 3] # Height
+        pred_conf = torch.sigmoid(prediction[..., 4]) # Conf
+        pred_cls = torch.sigmoid(prediction[..., 5:]) # Class
  
         # Change grid size
         if grid_size != self.grid_size:
@@ -118,3 +119,59 @@ class PredictLayer(nn.Module):
             
             total_loss = loss_x + loss_y + loss_w + loss_h + loss_conf + loss_cls
             return output, total_loss
+
+# Local transform
+def build_targets(pred_boxes, pred_cls, target, anchors, ignore_thres):
+    ByteTensor = torch.cuda.ByteTensor if pred_boxes.is_cuda else torch.ByteTensor
+    FloatTensor = torch.cuda.FloatTensor if pred_boxes.is_cuda else torch.FloatTensor
+ 
+    nB = pred_boxes.size(0)
+    nA = pred_boxes.size(1)
+    nC = pred_cls.size(-1)
+    nG = pred_boxes.size(2)
+ 
+    # outputs tensors
+    obj_mask = ByteTensor(nB, nA, nG, nG).fill_(0)
+    noobj_mask = ByteTensor(nB, nA, nG, nG).fill_(1)
+    class_mask = FloatTensor(nB, nA, nG, nG).fill_(0)
+    iou_scores = FloatTensor(nB, nA, nG, nG).fill_(0)
+    tx = FloatTensor(nB, nA, nG, nG).fill_(0)
+    ty = FloatTensor(nB, nA, nG, nG).fill_(0)
+    tw = FloatTensor(nB, nA, nG, nG).fill_(0)
+    th = FloatTensor(nB, nA, nG, nG).fill_(0)
+    tcls = FloatTensor(nB, nA, nG, nG, nC).fill_(0)
+ 
+    # local notation
+    target_boxes = target[:, 2:6] * nG
+    gxy = target_boxes[:, :2]
+    gwh = target_boxes[:, 2:]
+    # best boxes
+    ious = torch.stack([bbox_wh_iou(anchor, gwh) for anchor in anchors])
+    best_ious, best_n = ious.max(0)
+    # g
+    b, target_labels = target[:, :2].long().t()
+    gx, gy = gxy.t()
+    gw, gh = gwh.t()
+    gi, gj = gxy.long().t()
+    # masks
+    obj_mask[b, best_n, gj, gi] = 1
+    noobj_mask[b, best_n, gj, gi] = 0
+
+    # remove bad boxes
+    for i, anchor_ious in enumerate(ious.t()):
+        noobj_mask[b[i], anchor_ious > ignore_thres, gj[i], gi[i]] = 0
+ 
+    # tx ty
+    tx[b, best_n, gj, gi] = gx - gx.floor()
+    ty[b, best_n, gj, gi] = gy - gy.floor()
+    # tw th
+    tw[b, best_n, gj, gi] = torch.log(gw / anchors[best_n][:, 0] + 1e-16)
+    th[b, best_n, gj, gi] = torch.log(gh / anchors[best_n][:, 1] + 1e-16)
+    # One-hot encoding
+    tcls[b, best_n, gj, gi, target_labels] = 1
+    # best IoU
+    class_mask[b, best_n, gj, gi] = (pred_cls[b, best_n, gj, gi].argmax(-1) == target_labels).float()
+    iou_scores[b, best_n, gj, gi] = bbox_iou(pred_boxes[b, best_n, gj, gi], target_boxes, x1y1x2y2=False)
+ 
+    tconf = obj_mask.float()
+    return iou_scores, class_mask, obj_mask, noobj_mask, tx, ty, tw, th, tcls, tconf
