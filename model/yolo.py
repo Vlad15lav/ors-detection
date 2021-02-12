@@ -1,4 +1,5 @@
 import numpy as np
+import torch
 import torch.nn as nn
 
 from model.base import create_layers, create_modules
@@ -25,8 +26,8 @@ class YoloV3(nn.Module):
             if module_def["type"] in ["convolutional", "upsample"]:
                 x = module(x)
             elif module_def["type"] == "route":
-                x = torch.cat([layer_outputs[int(layer_i)]
-                    for layer_i in module_def["layers"].split(",")], 1)
+                x = torch.cat([layer_outputs[int(layer_i)]\
+                    for layer_i in module_def["layers"]], 1)
             elif module_def["type"] == "residual":
                 layer_i = int(module_def["from"])
                 x = layer_outputs[-1] + layer_outputs[layer_i]
