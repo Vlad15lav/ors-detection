@@ -31,6 +31,7 @@ Load YOLOv3 weights:
 ```
 wget https://github.com/Vlad15lav/Computer-Graphics/releases/download/animation/ffmpeg.exe -O states/dior_weights.pth
 ```
+<img src="/images/test.gif" alt="drawing" width="550"/>
 
 ## References
 - [Detection in Optical Remote Sensing Dataset](https://arxiv.org/ftp/arxiv/papers/1909/1909.00133.pdf)
