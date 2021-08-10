@@ -123,11 +123,11 @@ def train(train_loader, val_loader, model, optimizer, opt, cfg, scheduler=None):
                 val_f1.append(f1.mean())
             
             if opt.debug:
-                print(r'Epoche {epoch}: Train loss {train_loss[-1]},\
+                print(f'Epoche {epoch}: Train loss {train_loss[-1]},\
                     Val Precision {val_precision[-1]}, Val Recall \
                     {val_recall[-1]}, Val mAP {val_mAP[-1]}, Val F1 {val_f1[-1]}')
         elif opt.debug:
-            print(r'Epoche {epoch}: Train loss {train_loss[-1]}')
+            print(f'Epoche {epoch}: Train loss {train_loss[-1]}')
 
         # save optimizer
         torch.save({'optimizer_state_dict': optimizer.state_dict(),
