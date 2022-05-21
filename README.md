@@ -33,7 +33,7 @@ python eval.py --path data/DIOR-full --cfg dior --img_size 512 --batch_size 12
 Load YOLOv3 weights:
 
 ```
-wget https://github.com/Vlad15lav/Computer-Graphics/releases/download/animation/ffmpeg.exe -O states/dior_weights.pth
+wget https://github.com/Vlad15lav/ors-detection/releases/download/weights/dior_weights.pth -O states/dior_weights.pth
 ```
 
 ## References
