@@ -54,14 +54,14 @@ def handle_start_help(message):
 	btn_question = types.KeyboardButton("Возможности❓")
 	markup.add(btn_question)
 
-	img_hello = open('imgs/hello_image.png', 'rb')
+	img_hello = open('images/hello_image.png', 'rb')
 	bot.send_photo(message.chat.id, img_hello, caption=TEXT_HELLO, reply_markup=markup, parse_mode='Markdown')
 
 
 # Событие отправки текста
 @bot.message_handler(content_types=['text'])
 def handle_message(message):
-	img_classes = open('imgs/classes.png', 'rb')
+	img_classes = open('images/classes.png', 'rb')
 
 	markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 	btn_classes = types.KeyboardButton("Объекты📰")
@@ -85,7 +85,7 @@ def handle_message(message):
 
 	elif message.text == "Пример работыℹ️":
 		# Пример инференса для некоторых картинок
-		img_example = open('imgs/preview.gif', 'rb')
+		img_example = open('images/preview.gif', 'rb')
 		bot.send_video(message.chat.id, img_example, caption=TEXT_EXAMPLE, reply_markup=markup, parse_mode='Markdown')
 
 	elif message.text == "Быстрый скрин🔍":
