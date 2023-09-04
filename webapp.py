@@ -27,7 +27,8 @@ class Params:
 
 def load_weights():
     if not os.path.exists("states/dior_weights.pth"):
-        os.mkdir("states")
+        if not os.path.exists("states"):
+            os.mkdir("states")
         wget.download("https://github.com/Vlad15lav/ors-detection/releases/download/weights/dior_weights.pth",
                     out="states/dior_weights.pth")
 
