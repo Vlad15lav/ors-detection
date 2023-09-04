@@ -1,4 +1,13 @@
 # pip install -U -r requirements.txt
-numpy
-matplotlib
-cv2
+numpy==1.25.1
+streamlit==1.24.1
+streamlit_folium==0.13.0
+Pillow==9.3.0
+pyTelegramBotAPI==4.12.0
+matplotlib==3.7.2
+mysql-connector-python==8.0.33
+opencv-python==4.8.0.76
+wget
+-f https://download.pytorch.org/whl/torch_stable.html
+torch==2.0.1+cpu
+torchvision==0.15.2+cpu
