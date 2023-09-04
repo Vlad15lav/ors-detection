@@ -38,7 +38,7 @@ def load_model():
 
     model = YoloV3(len(cfg.mask), cfg.anchors, 512)
     try:
-        model.load_state_dict(torch.load(f'states/dior_weights.pth'))
+        model.load_state_dict(torch.load(f'states/dior_weights.pth', map_location=torch.device('cpu')))
     except FileNotFoundError:
         print('Weights is not found. You should move the weights to \
             /states/{name_proj}_weights.pth')
