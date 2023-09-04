@@ -26,7 +26,7 @@ python eval.py --path data/DIOR-full --cfg dior --img_size 512 --batch_size 12
 <img src="/images/test.gif" width="550"/>
 
 ## Dior Dataset
-<img src="/images/diorset.png" alt="drawing" width="450"/>
+<img src="/images/diorset.png" width="450"/>
 
 Load YOLOv3 weights:
 
