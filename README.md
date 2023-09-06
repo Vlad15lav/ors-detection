@@ -58,28 +58,28 @@ python eval.py --path data/DIOR-full --cfg dior --img_size 512 --batch_size 12
 
 Для каждого класса объектов был рассчитан показатель точности (AP):
 
-| Класс                       | AP     |
-|-----------------------------|--------|
-| 'airplane'                  | 81.6   |
-| 'airport'                   | 76.1   |
-| 'baseballfield'             | 84.6   |
-| 'basketballcourt'           | 88.6   |
-| 'bridge'                    | 48.9   |
-| 'chimney'                   | 75.9   |
-| 'dam'                       | 61.1   |
-| 'Expressway-Service-area'   | 82.9   |
-| 'Expressway-toll-station'   | 78.0   |
-| 'golffield'                 | 69.1   |
-| 'groundtrackfield'          | 86.5   |
-| 'harbor'                    | 56.3   |
-| 'overpass'                  | 90.4   |
-| 'ship'                      | 51.9   |
-| 'stadium'                   | 78.4   |
-| 'storagetank'               | 88.9   |
-| 'tenniscourt'               | 61.1   |
-| 'trainstation'              | 56.0   |
-| 'vehicle'                   | 89.2   |
-| 'windmill'                  | 57.8   |
+| Класс                     | AP     |
+|---------------------------|--------|
+| airplane                  | 81.6   |
+| airport                   | 76.1   |
+| baseballfield             | 84.6   |
+| basketballcourt           | 88.6   |
+| bridge                    | 48.9   |
+| chimney                   | 75.9   |
+| dam                       | 61.1   |
+| Expressway-Service-area   | 82.9   |
+| Expressway-toll-station   | 78.0   |
+| golffield                 | 69.1   |
+| groundtrackfield          | 86.5   |
+| harbor                    | 56.3   |
+| overpass                  | 90.4   |
+| ship                      | 51.9   |
+| stadium                   | 78.4   |
+| storagetank               | 88.9   |
+| tenniscourt               | 61.1   |
+| trainstation              | 56.0   |
+| vehicle                   | 89.2   |
+| windmill                  | 57.8   |
 
 ### Примеры детектирования:  
 <img src="/images/test.gif" alt="drawing" width="500"/>
