@@ -3,6 +3,7 @@ import os
 import yaml
 import math
 import numpy as np
+import torch
 
 from torch.utils.data.sampler import SubsetRandomSampler
 from torch.utils.data import DataLoader
@@ -10,7 +11,7 @@ from torch.utils.data import DataLoader
 from model.yolo import YoloV3
 from model.weight import *
 from data.dataloader import Dataset
-from data.augment import Normalizer, Resizer
+from data.augment import Normalizer, Resizer, Compose
 from tools.metrics import evaluate
 
 class Params:
@@ -26,7 +27,7 @@ def get_args():
     parser.add_argument('--cfg', type=str, help='name cfg')
     parser.add_argument('--img_size', type=int, default=512, help='image size')
     parser.add_argument('-bs', '--batch_size', type=int, default=12, help='batch size')
-    parser.add_argument('--n_work', type=int, default=8, help='number of gpu')
+    parser.add_argument('--n_work', type=int, default=2, help='number of gpu')
 
     args = parser.parse_args()
     return args
@@ -46,7 +47,7 @@ if __name__ == '__main__':
         print('Weights is not found. You should move the weights to \
             /states/{name_proj}_weights.pth')
 
-    transform_test=Compose([Normalizer(cfg.mean, cfg.std),
+    transform_test = Compose([Normalizer(cfg.mean, cfg.std),
         Resizer(opt.img_size)])
 
     testset = Dataset(f'{opt.path}/test.txt', opt, cfg, transform=transform_test)
