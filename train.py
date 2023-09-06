@@ -192,9 +192,9 @@ if __name__ == '__main__':
         optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
         scheduler.load_state_dict(checkpoint['scheduler_state_dict'])
 
-    transform_train=Compose([RandomHSV(cfg.hsvlow, cfg.hsvhigh), Flip(cfg.flip_x, cfg.flip_y),
+    transform_train = Compose([RandomHSV(cfg.hsvlow, cfg.hsvhigh), Flip(cfg.flip_x, cfg.flip_y),
         Normalizer(cfg.mean, cfg.std), Resizer(opt.img_size)])
-    transform_test=Compose([Normalizer(cfg.mean, cfg.std),
+    transform_test = Compose([Normalizer(cfg.mean, cfg.std),
         Resizer(opt.img_size)])
 
     trainset = Dataset(f'{opt.path}/train.txt', opt, cfg, transform=transform_train)
