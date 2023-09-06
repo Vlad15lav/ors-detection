@@ -32,7 +32,7 @@ def get_args():
     parser.add_argument('--epoches', type=int, default=50, help='number of epoches')
     parser.add_argument('--adam', help='Adam optimizer', action="store_true")
     parser.add_argument('-bs', '--batch_size', type=int, default=12, help='batch size')
-    parser.add_argument('--n_work', type=int, default=8, help='number of gpu')
+    parser.add_argument('--n_work', type=int, default=2, help='number of gpu')
     parser.add_argument('--lr', type=float, default=0.005, help='learning rate')
     parser.add_argument('--wd', type=float, default=0.0005, help='weight decay')
     parser.add_argument('--load_train', help='continue training', action="store_true")
