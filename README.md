@@ -46,7 +46,7 @@ python train.py --path data/DIOR-full --cfg dior --img_size 512 --load_train --e
 ```
 
 ### График обучения:  
-![График обучения](/images/YOLOv3-training.png)
+![График обучения](/images/YOLOv3-training.jpg)
 
 ## Оценка модели
 Для оценки модели выполните следующую команду:
