@@ -26,11 +26,10 @@ def load_weights():
     if not os.path.exists("states/dior_weights.pth"):
         if not os.path.exists("states"):
             os.mkdir("states")
-        wget.download(
-            "https://github.com/Vlad15lav/" /
-            "ors-detection/releases/download/weights/dior_weights.pth",
-            out="states/dior_weights.pth",
-        )
+        wget.download("https://github.com/Vlad15lav/ors-detection/" +
+                      "releases/download/weights/dior_weights.pth",
+                      out="states/dior_weights.pth"
+                      )
 
 
 @st.cache_data
@@ -44,10 +43,9 @@ def load_model():
                        map_location=torch.device("cpu"))
         )
     except FileNotFoundError:
-        print(
-            "Weights is not found. You should move the weights to \
-            /states/{name_proj}_weights.pth"
-        )
+        print("Weights is not found. You should move the weights to " +
+              "/states/{name_proj}_weights.pth"
+              )
 
     return model
 
@@ -65,34 +63,30 @@ def main():
     st.title("AI Space Detector")
     st.write("Сервис для нахождения объектов на спутниковых снимках.")
     with st.expander("Подробнее о приложении"):
-        st.write(
-            "Привет!👋 Это сервис для обнаружения объектов " +
-            "на спутниковых снимках🌍🛰️."
-        )
-        st.write(
-            "Модель обучена на наборе данных [DIOR]" +
-            "(https://arxiv.org/abs/1909.00133). " +
-            "Здесь содержится 20 различных классов, " +
-            "которые могут быть на спутниковых снимках✈🚤🚞🏟🏭🌉."
-        )
+        st.write("Привет!👋 Это сервис для обнаружения объектов " +
+                 "на спутниковых снимках🌍🛰️."
+                 )
+        st.write("Модель обучена на наборе данных [DIOR]" +
+                 "(https://arxiv.org/abs/1909.00133). " +
+                 "Здесь содержится 20 различных классов, " +
+                 "которые могут быть на спутниковых снимках✈🚤🚞🏟🏭🌉."
+                 )
         st.image("./images/classes.png")
-        st.write(
-            "Отправь мне картинку/скриншот со спутников🌍🛰️, " +
-            "программа попытается найти объекты на нем🔍. " +
-            "Можно воспользоваться [Google Earth]" +
-            "(https://earth.google.com/web/), [Google Map]" +
-            "(https://www.google.com/maps) или [Yandex Map]" +
-            "(https://yandex.ru/maps).\n" +
-            "Рекомендуется использовать Google Earth."
-        )
-        st.write(
-            "Здесь используется одна из моделей Object Detection " +
-            "[YOLOv3](https://arxiv.org/abs/1804.02767)."
-        )
-        st.write(
-            "Репозиторий [GitHub]" +
-            "(https://github.com/Vlad15lav/ors-detection) обученной модели."
-        )
+        st.write("Отправь мне картинку/скриншот со спутников🌍🛰️, " +
+                 "программа попытается найти объекты на нем🔍. " +
+                 "Можно воспользоваться [Google Earth]" +
+                 "(https://earth.google.com/web/), [Google Map]" +
+                 "(https://www.google.com/maps) или [Yandex Map]" +
+                 "(https://yandex.ru/maps).\n" +
+                 "Рекомендуется использовать Google Earth."
+                 )
+        st.write("Здесь используется одна из моделей Object Detection " +
+                 "[YOLOv3](https://arxiv.org/abs/1804.02767)."
+                 )
+        st.write("Репозиторий [GitHub]" +
+                 "(https://github.com/Vlad15lav/ors-detection) " +
+                 "обученной модели."
+                 )
 
     with st.sidebar:
         latitude = st.sidebar.text_input("Широта", "55.82103")
@@ -111,11 +105,10 @@ def main():
         col1, col2 = st.columns(2)
 
         with col1:
-            st.markdown(
-                "<div style='text-align: center;'>" +
-                f"{'Оригинальное изображение'}</div>",
-                unsafe_allow_html=True,
-            )
+            st.markdown("<div style='text-align: center;'>" +
+                        f"{'Оригинальное изображение'}</div>",
+                        unsafe_allow_html=True
+                        )
             # st.write('Оригинальное изображение')
             st.image(uploaded_file)
             image = Image.open(uploaded_file)
@@ -127,11 +120,10 @@ def main():
 
         with col2:
             # st.write('Предсказание модели')
-            st.markdown(
-                "<div style='text-align: center;'>" /
-                f"{'Предсказание модели'}</div>",
-                unsafe_allow_html=True,
-            )
+            st.markdown("<div style='text-align: center;'>" /
+                        f"{'Предсказание модели'}</div>",
+                        unsafe_allow_html=True
+                        )
             st.image(img_draw)
             st.text(text_statistic)
 
@@ -144,11 +136,10 @@ def main():
         else:
             col1, col2 = st.columns(2)
             with col1:
-                st.markdown(
-                    "<div style='text-align: center;'>" +
-                    f"{'Оригинальное изображение'}</div>",
-                    unsafe_allow_html=True,
-                )
+                st.markdown("<div style='text-align: center;'>" +
+                            f"{'Оригинальное изображение'}</div>",
+                            unsafe_allow_html=True,
+                            )
                 st.image(uploaded_file)
 
             bbox, cls_label, text_statistic = model_inference(
@@ -157,11 +148,10 @@ def main():
             img_draw = draw_boxes(uploaded_file, bbox, cls_label)
 
             with col2:
-                st.markdown(
-                    "<div style='text-align: center;'>" +
-                    f"{'Предсказание модели'}</div>",
-                    unsafe_allow_html=True,
-                )
+                st.markdown("<div style='text-align: center;'>" +
+                            f"{'Предсказание модели'}</div>",
+                            unsafe_allow_html=True
+                            )
                 st.image(img_draw)
                 st.text(text_statistic)
 
