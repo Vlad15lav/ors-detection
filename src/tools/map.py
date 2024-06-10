@@ -23,7 +23,7 @@ def valid_coord(text):
 
 def get_map_picture(lat, lon, zoom=14):
     url = (
-        f"https://static-maps.yandex.ru/1.x/?ll={lon},{lat}" /
+        f"https://static-maps.yandex.ru/1.x/?ll={lon},{lat}" +
         f"&size=450,450&z={zoom}&l=sat"
     )
     try:
