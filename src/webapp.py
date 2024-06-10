@@ -34,7 +34,7 @@ def load_weights():
 
 @st.cache_data
 def load_model():
-    cfg = Params("projects/dior.yml")
+    cfg = Params("src/projects/dior.yml")
 
     model = YoloV3(len(cfg.mask), cfg.anchors, 512)
     try:
